@@ -1,6 +1,11 @@
---Portfolio project- SQL data exploration on Covid dataset
---dataset source: https://ourworldindata.org/covid-deaths
+/*
+Portfolio project- SQL data exploration on Covid dataset
+dataset source: https://ourworldindata.org/covid-deaths
 
+Covid 19 Data Exploration 
+Skills used: Joins, CTE's, Temp Tables, Windows Functions, Aggregate Functions, Creating Views, Converting Data Types
+
+*/
 
 SELECT *
 FROM PortfolioProject..CovidDeaths
@@ -16,20 +21,22 @@ ORDER BY 1,2
 
 
 --Total Cases vs Total Deaths
+--(shows likelihood of dying if you contract covid in your country)
 
 SELECT location, date, total_cases, total_deaths, (total_deaths/total_cases)*100 AS DeathPercentage
 FROM PortfolioProject..CovidDeaths
 WHERE location = 'India' AND continent is not null
 ORDER BY 1,2
---(shows likelihood of dying if you contract covid in your country)
+
 
 --Total Cases vs Population
+--(shows what percentage of population got Covid)
 
 SELECT location, date, total_cases, population, (total_cases/population)*100 AS CovidPopulationPercentage
 FROM PortfolioProject..CovidDeaths
 WHERE location = 'India' AND continent is not null
 ORDER BY 1,2
---(shows what percentage of population got Covid)
+
 
 --Countries with highest infection rate compared to population
 
@@ -52,13 +59,13 @@ ORDER BY PercentPopulationDeaths DESC
 
 
 --Death count by Continents
+-- Showing contintents with the highest death count per population
 
 SELECT continent, MAX(cast(total_deaths as int)) AS TotalDeathCount
 FROM PortfolioProject..CovidDeaths
 WHERE continent is not null
 GROUP BY continent
 ORDER BY TotalDeathCount DESC
---Showing continents with highest death count
 
 
 --GLOBAL NUMBERS
@@ -183,6 +190,8 @@ AND dea.location = 'India'
 
 SELECT *, (RollingVaccinationSum/Population)*100 AS PercentPopulationVaccinated
 FROM #PercentPopulationVaccinated
+
+
 
 
 --Creating a View to use data for visualizations
